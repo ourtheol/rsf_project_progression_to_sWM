@@ -1,0 +1,47 @@
+==== Formula ====
+Surv(Months, Progression) ~ score_group
+==== Kaplan-Meier Fit (survfit) ====
+Call: survfit(formula = formula, data = scores.table.validation)
+
+                           n events median 0.95LCL 0.95UCL
+score_group=score_group_1 16      6    120      72      NA
+score_group=score_group_2 45      4     NA      NA      NA
+
+==== Log-rank Test (survdiff) ====
+Call:
+survdiff(formula = formula, data = scores.table.validation)
+
+                           N Observed Expected (O-E)^2/E (O-E)^2/V
+score_group=score_group_1 16        6     2.88      3.38      4.78
+score_group=score_group_2 45        4     7.12      1.37      4.78
+
+ Chisq= 4.8  on 1 degrees of freedom, p= 0.03 
+
+==== Cox Proportional Hazards Model ====
+Call:
+coxph(formula = formula, data = scores.table.validation)
+
+  n= 61, number of events= 10 
+
+                            coef exp(coef) se(coef)      z Pr(>|z|)  
+score_groupscore_group_2 -1.3243    0.2660   0.6464 -2.049   0.0405 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+                         exp(coef) exp(-coef) lower .95 upper .95
+score_groupscore_group_2     0.266       3.76   0.07492    0.9442
+
+Concordance= 0.688  (se = 0.086 )
+Likelihood ratio test= 4.27  on 1 df,   p=0.04
+Wald test            = 4.2  on 1 df,   p=0.04
+Score (logrank) test = 4.84  on 1 df,   p=0.03
+
+
+==== Concordance Index ====
+Call:
+concordance.coxph(object = fit.cox, timewt = "n/G2")
+
+n= 61 
+Concordance= 0.676 se= 0.08851
+concordant discordant     tied.x     tied.y    tied.xy 
+    569.99     145.44     490.73       0.00       2.63 

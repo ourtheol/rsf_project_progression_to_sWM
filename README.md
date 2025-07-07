@@ -11,7 +11,8 @@ Of course, with a larger sample size RSFs can be used for training robust classi
 
 We have used a validation cohort to further test the generalizability of our models. The validation cohort patients’ clinical measurements and genomic events were used as input to the models and we have used the same thresholds to stratify them into the high or low risk to progression group. We then fit a Cox proportional hazards model to assess the association between risk groups and progression-free survival in the validation cohort. To visualize group-level differences in survival, we also generated Kaplan–Meier survival curves.
 
-
+Overview figure Inspired by: Ruffalo et al., Journal of Biomedical Informatics https://doi.org/10.1016/j.jbi.2015.10.003.
+![Alt text](rsf_project_progression_to_sWM/figs/rsf_overview.png)
 
 
 Create a new Conda environment named rsf_env using the dependencies listed in requirements.txt:
@@ -33,3 +34,18 @@ Rscript model_clinValues_genomic.R
 ````
 
 
+If you want to use the model and get a predisction on your patient data, create a csv file like the one: rsf_project_progression_to_sWM/data/validation_cohort.tsv . Do NOT include missing values such as NA, Nan etc. Open an R session when having activated the rsf_env.
+````
+# # Load the RSFclin+genomic model
+obj <- readRDS("path/to/models/obj_model3_clinValues_genomic.RDS")
+
+# Data
+d <- read.table("/path/to/data/patient_data.tsv", header = TRUE, row.names = 1)
+
+y.pred <- predict(obj, newdata = d)
+
+# predicted scores
+y.pred$predicted
+````
+
+The presicted risk scores are printed in the same order the patients are provided in the data table. After ROC-analysis we have used the threshold 1.09 to stratify patients into high or low risk-to progression groups.

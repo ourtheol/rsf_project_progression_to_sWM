@@ -108,6 +108,7 @@ plot(roc_obj, main = paste("AUC =", round(auc(roc_obj), 3)))
 
 # Best threshold based on Youden’s index (maximizes Sensitivity + Specificity - 1)
 best_thresh <- coords(roc_obj, "best", ret = "threshold")
+message(paste0("ROC-analysis for patient stratification threshold:", best_thresh))
 # the threshold in our RSFclin+genomic model is 1.09
 
 # Assign patients into groups according to the RSF scrores
@@ -224,7 +225,7 @@ patient.states.val <- read.table("./data/patient_states_validation_cohort.tsv", 
 
 scores.table.validation <- merge(scores.table.validation, patient.states.val, by = "Sample")
 
-write.table(sc, "./results/score_groups_validation.csv", quote = FALSE, row.names = FALSE)
+write.table(scores.table.validation, "./results/score_groups_validation.csv", quote = FALSE, row.names = FALSE)
 
 
 
